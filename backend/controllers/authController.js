@@ -36,7 +36,40 @@ const registroOrganizador = async (req, res, next) => {
   }
 };
 
+const login = async (req, res, next) => {
+  try {
+    const { correo, contrasena } = req.body;
+    const resultado = await authService.login(correo, contrasena);
+    res.status(200).json(resultado);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const recuperarContrasena = async (req, res, next) => {
+  try {
+    const { correo } = req.body;
+    const mensaje = await authService.recuperarContrasena(correo);
+    res.status(200).json({ mensaje });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const nuevaContrasena = async (req, res, next) => {
+  try {
+    const { token, nuevaContrasena } = req.body;
+    await authService.nuevaContrasena(token, nuevaContrasena);
+    res.status(200).json({ mensaje: 'Contraseña actualizada correctamente.' });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   registroBanda,
   registroOrganizador,
+  login,
+  recuperarContrasena,
+  nuevaContrasena,
 };
