@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { obtenerPerfil, actualizarPerfil, publicarPerfil } from '../../services/bandaService';
 import GaleriaMultimedia from '../../components/banda/GaleriaMultimedia';
+import CalendarioDisponibilidad from '../../components/banda/CalendarioDisponibilidad';
 import SelectorUbicacion from '../../components/common/SelectorUbicacion';
 import { GENEROS_MUSICALES, DEPARTAMENTOS } from '../../constants/ubicaciones';
 
@@ -232,6 +233,10 @@ export default function EditarPerfil() {
         <hr style={styles.separador} />
 
         <GaleriaMultimedia bandaId={id} multimedia={multimedia} token={token} onCambio={cargarPerfil} />
+
+        <hr style={styles.separador} />
+
+        <CalendarioDisponibilidad bandaId={id} modoEdicion={true} token={token} />
       </div>
     </div>
   );

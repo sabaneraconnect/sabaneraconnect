@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { obtenerPerfil } from '../../services/bandaService';
+import CalendarioDisponibilidad from '../../components/banda/CalendarioDisponibilidad';
 
 export default function PerfilBanda() {
   const { id } = useParams();
@@ -63,6 +64,10 @@ export default function PerfilBanda() {
         {banda.multimedia.length === 0 && (
           <p style={styles.vacio}>Esta banda aún no ha subido fotos o videos.</p>
         )}
+
+        <section style={styles.seccion}>
+          <CalendarioDisponibilidad bandaId={banda.id} modoEdicion={false} />
+        </section>
       </div>
     </div>
   );

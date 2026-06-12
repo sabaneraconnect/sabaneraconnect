@@ -49,6 +49,17 @@ model Banda {
   aniosExperiencia     Int               @default(0)
   estadoPerfil         String            @default("borrador")
   multimedia           MultimediaBanda[]
+  disponibilidad       DisponibilidadBanda[]
+}
+
+model DisponibilidadBanda {
+  id            Int      @id @default(autoincrement())
+  bandaId       Int
+  banda         Banda    @relation(fields: [bandaId], references: [id])
+  fecha         DateTime
+  franjaInicio  String
+  franjaFin     String
+  estado        String   @default("disponible")
 }
 
 model MultimediaBanda {

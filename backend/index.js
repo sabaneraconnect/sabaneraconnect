@@ -4,6 +4,7 @@ const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/authRoutes');
 const bandaRoutes = require('./routes/bandaRoutes');
+const disponibilidadRoutes = require('./routes/disponibilidadRoutes');
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/bandas', bandaRoutes);
+app.use('/api/disponibilidad', disponibilidadRoutes);
 
 app.use(errorHandler);
 
