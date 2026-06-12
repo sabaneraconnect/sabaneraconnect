@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import RegistroBanda from './pages/auth/RegistroBanda';
 import './App.css';
 
 function Inicio() {
@@ -10,6 +11,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Inicio />} />
+        <Route path="/registro/banda" element={<RegistroBanda />} />
       </Routes>
     </BrowserRouter>
   );
