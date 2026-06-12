@@ -6,7 +6,7 @@ const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const registrarBanda = async (datos) => {
-  const { nombre, correo, contrasena, telefono, municipio, nit } = datos;
+  const { nombre, correo, contrasena, telefono, municipio, departamento, nit } = datos;
 
   const usuarioExistente = await prisma.usuario.findUnique({
     where: { correo },
@@ -30,6 +30,7 @@ const registrarBanda = async (datos) => {
       banda: {
         create: {
           municipio,
+          departamento: departamento || null,
           nit: nit || null,
         },
       },
