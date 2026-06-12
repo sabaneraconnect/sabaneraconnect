@@ -25,6 +25,14 @@ model Usuario {
   fechaCreacion   DateTime  @default(now())
 
   banda           Banda?
+  organizador     Organizador?
+}
+
+model Organizador {
+  id            Int      @id @default(autoincrement())
+  usuarioId     Int      @unique
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id])
+  fechaCreacion DateTime @default(now())
 }
 
 model Banda {

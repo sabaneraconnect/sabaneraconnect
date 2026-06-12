@@ -18,6 +18,25 @@ const registroBanda = async (req, res, next) => {
   }
 };
 
+const registroOrganizador = async (req, res, next) => {
+  try {
+    const usuario = await authService.registrarOrganizador(req.body);
+
+    res.status(201).json({
+      mensaje: 'Organizador registrado correctamente.',
+      usuario: {
+        id: usuario.id,
+        nombre: usuario.nombre,
+        correo: usuario.correo,
+        rol: usuario.rol,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   registroBanda,
+  registroOrganizador,
 };
