@@ -36,10 +36,25 @@ model Organizador {
 }
 
 model Banda {
-  id                  Int      @id @default(autoincrement())
-  usuarioId           Int      @unique
-  usuario             Usuario  @relation(fields: [usuarioId], references: [id])
-  municipio           String
-  nit                 String?
-  estadoVerificacion  String   @default("borrador")
+  id                   Int               @id @default(autoincrement())
+  usuarioId            Int               @unique
+  usuario              Usuario           @relation(fields: [usuarioId], references: [id])
+  municipio            String
+  nit                  String?
+  estadoVerificacion   String            @default("borrador")
+  integrantes          String?
+  generos              String?
+  municipiosCobertura  String?
+  aniosExperiencia     Int               @default(0)
+  estadoPerfil         String            @default("borrador")
+  multimedia           MultimediaBanda[]
+}
+
+model MultimediaBanda {
+  id          Int      @id @default(autoincrement())
+  bandaId     Int
+  banda       Banda    @relation(fields: [bandaId], references: [id])
+  url         String
+  tipo        String
+  fechaCarga  DateTime @default(now())
 }

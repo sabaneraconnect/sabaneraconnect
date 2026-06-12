@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/authRoutes');
+const bandaRoutes = require('./routes/bandaRoutes');
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/bandas', bandaRoutes);
 
 app.use(errorHandler);
 

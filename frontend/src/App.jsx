@@ -4,6 +4,8 @@ import RegistroOrganizador from './pages/auth/RegistroOrganizador';
 import Login from './pages/auth/Login';
 import RecuperarContrasena from './pages/auth/RecuperarContrasena';
 import NuevaContrasena from './pages/auth/NuevaContrasena';
+import PerfilBanda from './pages/banda/PerfilBanda';
+import EditarPerfil from './pages/banda/EditarPerfil';
 import './App.css';
 
 function Inicio() {
@@ -20,6 +22,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
         <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
+        <Route path="/banda/:id" element={<PerfilBanda />} />
+        <Route path="/banda/:id/editar" element={<EditarPerfil />} />
       </Routes>
     </BrowserRouter>
   );
