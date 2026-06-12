@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
+const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({ message: 'SabaneraConnect API funcionando correctamente.' });
 });
+
+app.use('/api/auth', authRoutes);
 
 app.use(errorHandler);
 
