@@ -11,3 +11,27 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Usuario {
+  id              Int       @id @default(autoincrement())
+  nombre          String
+  correo          String    @unique
+  contrasena      String
+  telefono        String
+  rol             String
+  estado          String    @default("pendiente")
+  intentosFallidos Int      @default(0)
+  bloqueadoHasta  DateTime?
+  fechaCreacion   DateTime  @default(now())
+
+  banda           Banda?
+}
+
+model Banda {
+  id                  Int      @id @default(autoincrement())
+  usuarioId           Int      @unique
+  usuario             Usuario  @relation(fields: [usuarioId], references: [id])
+  municipio           String
+  nit                 String?
+  estadoVerificacion  String   @default("borrador")
+}
