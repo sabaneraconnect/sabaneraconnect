@@ -1,0 +1,35 @@
+:root {
+  /* Colores */
+  --color-primario: #E8853D;
+  --color-secundario: #0E7C8C;
+  --color-acento: #F4C95D;
+  --color-fondo: #FFF8F0;
+  --color-texto: #2D2A26;
+  --color-texto-secundario: #8C8680;
+
+  /* Tipografía */
+  --fuente-encabezado: 'Poppins', sans-serif;
+  --fuente-cuerpo: 'Inter', sans-serif;
+
+  /* Espaciado */
+  --espaciado-sm: 8px;
+  --espaciado-md: 16px;
+  --espaciado-lg: 24px;
+  --espaciado-xl: 32px;
+
+  /* Bordes */
+  --radio-borde: 8px;
+}
+
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fuente-encabezado);
+  color: var(--color-texto);
+}
