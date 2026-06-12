@@ -6,6 +6,7 @@ import RecuperarContrasena from './pages/auth/RecuperarContrasena';
 import NuevaContrasena from './pages/auth/NuevaContrasena';
 import PerfilBanda from './pages/banda/PerfilBanda';
 import EditarPerfil from './pages/banda/EditarPerfil';
+import BuscarBandas from './pages/busqueda/BuscarBandas';
 import './App.css';
 
 function Inicio() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/nueva-contrasena" element={<NuevaContrasena />} />
         <Route path="/banda/:id" element={<PerfilBanda />} />
         <Route path="/banda/:id/editar" element={<EditarPerfil />} />
+        <Route path="/bandas/buscar" element={<BuscarBandas />} />
       </Routes>
     </BrowserRouter>
   );

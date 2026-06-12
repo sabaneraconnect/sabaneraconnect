@@ -48,6 +48,7 @@ model Banda {
   municipiosCobertura  String?
   aniosExperiencia     Int               @default(0)
   estadoPerfil         String            @default("borrador")
+  rangoPrecio          String?
   multimedia           MultimediaBanda[]
   disponibilidad       DisponibilidadBanda[]
 }
