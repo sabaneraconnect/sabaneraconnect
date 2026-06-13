@@ -52,4 +52,13 @@ const publicarPerfil = async (req, res, next) => {
   }
 };
 
-module.exports = { obtenerPerfil, actualizarPerfil, subirMultimedia, eliminarMultimedia, publicarPerfil };
+const obtenerMiBanda = async (req, res, next) => {
+  try {
+    const result = await bandaService.obtenerBandaIdPorUsuario(req.usuario.id);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { obtenerPerfil, actualizarPerfil, subirMultimedia, eliminarMultimedia, publicarPerfil, obtenerMiBanda };

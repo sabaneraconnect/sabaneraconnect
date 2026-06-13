@@ -134,4 +134,14 @@ const publicarPerfil = async (usuarioId) => {
   });
 };
 
-module.exports = { obtenerPerfil, actualizarPerfil, subirMultimedia, eliminarMultimedia, publicarPerfil };
+const obtenerBandaIdPorUsuario = async (usuarioId) => {
+  const banda = await prisma.banda.findUnique({ where: { usuarioId } });
+  if (!banda) {
+    const error = new Error('No tienes perfil de banda.');
+    error.status = 404;
+    throw error;
+  }
+  return { bandaId: banda.id };
+};
+
+module.exports = { obtenerPerfil, actualizarPerfil, subirMultimedia, eliminarMultimedia, publicarPerfil, obtenerBandaIdPorUsuario };

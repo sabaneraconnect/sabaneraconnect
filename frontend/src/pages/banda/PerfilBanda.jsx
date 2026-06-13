@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { useParams, Link } from 'react-router-dom';
 import { obtenerPerfil } from '../../services/bandaService';
 import CalendarioDisponibilidad from '../../components/banda/CalendarioDisponibilidad';
 
@@ -20,14 +21,29 @@ export default function PerfilBanda() {
   const fotos = banda.multimedia.filter((m) => m.tipo === 'foto');
   const videos = banda.multimedia.filter((m) => m.tipo === 'video');
 
+  const nombreBanda = banda.usuario.nombre;
+  const tituloPagina = nombreBanda ? `${nombreBanda} — SabaneraConnect` : 'Perfil de banda — SabaneraConnect';
+  const descPagina = nombreBanda
+    ? `Conoce el repertorio${banda.generos ? ` (${banda.generos})` : ''}, disponibilidad y reseñas de ${nombreBanda}, banda musical del Caribe colombiano.`
+    : 'Conoce el perfil de esta banda musical del Caribe colombiano.';
+
   return (
     <div style={styles.pagina}>
+      <Helmet>
+        <title>{tituloPagina}</title>
+        <meta name="description" content={descPagina} />
+      </Helmet>
       <div style={styles.contenedor}>
         <div style={styles.encabezado}>
           <h1 style={styles.nombre}>{banda.usuario.nombre}</h1>
-          <span style={{ ...styles.estado, ...(banda.estadoPerfil === 'publicado' ? styles.publicado : styles.borrador) }}>
-            {banda.estadoPerfil === 'publicado' ? 'Publicado' : 'Borrador'}
-          </span>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <span style={{ ...styles.estado, ...(banda.estadoPerfil === 'publicado' ? styles.publicado : styles.borrador) }}>
+              {banda.estadoPerfil === 'publicado' ? 'Publicado' : 'Borrador'}
+            </span>
+            <Link to={`/solicitudes/nueva/${banda.id}`} style={styles.btnSolicitar}>
+              Solicitar contratación
+            </Link>
+          </div>
         </div>
 
         <div style={styles.grid}>
@@ -107,4 +123,5 @@ const styles = {
   foto: { width: '100%', height: '150px', objectFit: 'cover', borderRadius: 'var(--radio-borde)' },
   vacio: { color: 'var(--color-texto-secundario)', fontSize: '0.9rem', margin: 0 },
   errorMsg: { backgroundColor: '#fde8e8', color: '#c0392b', padding: 'var(--espaciado-md)', borderRadius: 'var(--radio-borde)' },
+  btnSolicitar: { padding: '6px 16px', backgroundColor: 'var(--color-secundario)', color: '#fff', borderRadius: 'var(--radio-borde)', textDecoration: 'none', fontFamily: 'var(--fuente-encabezado)', fontWeight: 600, fontSize: '0.9rem' },
 };

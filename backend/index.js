@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const bandaRoutes = require('./routes/bandaRoutes');
 const disponibilidadRoutes = require('./routes/disponibilidadRoutes');
 const busquedaRoutes = require('./routes/busquedaRoutes');
+const solicitudRoutes = require('./routes/solicitudRoutes');
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/bandas', bandaRoutes);
 app.use('/api/disponibilidad', disponibilidadRoutes);
 app.use('/api/busqueda', busquedaRoutes);
+app.use('/api/solicitudes', solicitudRoutes);
 
 app.use(errorHandler);
 

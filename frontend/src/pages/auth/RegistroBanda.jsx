@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { registrarBanda } from '../../services/authService';
 import SelectorUbicacion from '../../components/common/SelectorUbicacion';
 
@@ -44,6 +45,10 @@ export default function RegistroBanda() {
 
   return (
     <div style={styles.pagina}>
+      <Helmet>
+        <title>Registra tu banda musical — SabaneraConnect</title>
+        <meta name="description" content="Publica el perfil de tu banda, muestra tu disponibilidad y consigue más presentaciones." />
+      </Helmet>
       <form onSubmit={handleSubmit} style={styles.formulario}>
         <h2 style={styles.titulo}>Registro de Banda</h2>
 

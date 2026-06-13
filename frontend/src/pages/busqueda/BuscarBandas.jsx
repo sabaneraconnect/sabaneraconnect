@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { buscarBandas } from '../../services/busquedaService';
 import TarjetaBanda from '../../components/banda/TarjetaBanda';
 import Paginacion from '../../components/common/Paginacion';
@@ -49,6 +50,10 @@ export default function BuscarBandas() {
 
   return (
     <div style={styles.pagina}>
+      <Helmet>
+        <title>Buscar bandas musicales para tu evento — SabaneraConnect</title>
+        <meta name="description" content="Encuentra bandas disponibles por género, departamento, fecha y horario para tu evento." />
+      </Helmet>
       <div style={styles.contenedor}>
         <h1 style={styles.titulo}>Buscar bandas</h1>
 

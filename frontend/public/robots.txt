@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /banda/*/editar
+Disallow: /solicitudes/
+Disallow: /nueva-contrasena
+
+Sitemap: https://sabaneraconnect.vercel.app/sitemap.xml

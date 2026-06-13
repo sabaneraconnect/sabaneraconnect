@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { registrarOrganizador } from '../../services/authService';
 
 const camposIniciales = {
@@ -37,6 +38,10 @@ export default function RegistroOrganizador() {
 
   return (
     <div style={styles.pagina}>
+      <Helmet>
+        <title>Regístrate como organizador de eventos — SabaneraConnect</title>
+        <meta name="description" content="Crea tu cuenta y empieza a contratar bandas musicales para tus eventos." />
+      </Helmet>
       <form onSubmit={handleSubmit} style={styles.formulario}>
         <h2 style={styles.titulo}>Registro de Organizador</h2>
 

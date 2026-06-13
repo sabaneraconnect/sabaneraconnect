@@ -15,3 +15,4 @@ export const subirMultimedia = (id, archivo, tipo, token) => {
 export const eliminarMultimedia = (id, archivoId, token) =>
   api.delete(`/api/bandas/${id}/multimedia/${archivoId}`, authHeader(token));
 export const publicarPerfil = (id, token) => api.put(`/api/bandas/${id}/publicar`, {}, authHeader(token));
+export const obtenerMiBanda = (token) => api.get('/api/bandas/mi-banda', authHeader(token));

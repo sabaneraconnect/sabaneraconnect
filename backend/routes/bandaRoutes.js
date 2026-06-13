@@ -20,6 +20,7 @@ const verificarPropietario = async (req, res, next) => {
   }
 };
 
+router.get('/mi-banda', auth, bandaController.obtenerMiBanda);
 router.get('/:id', bandaController.obtenerPerfil);
 router.put('/:id', auth, verificarPropietario, bandaController.actualizarPerfil);
 router.post('/:id/multimedia', auth, verificarPropietario, upload.single('archivo'), bandaController.subirMultimedia);

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../../services/authService';
 
@@ -19,6 +20,7 @@ export default function Login() {
       const res = await login(form.correo, form.contrasena);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
+      window.dispatchEvent(new Event('authChange'));
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.error || 'Ocurrió un error. Intenta de nuevo.');
@@ -29,6 +31,10 @@ export default function Login() {
 
   return (
     <div style={styles.pagina}>
+      <Helmet>
+        <title>Iniciar sesión — SabaneraConnect</title>
+        <meta name="description" content="Accede a tu cuenta de SabaneraConnect." />
+      </Helmet>
       <form onSubmit={handleSubmit} style={styles.formulario}>
         <h2 style={styles.titulo}>Iniciar sesión</h2>
 
