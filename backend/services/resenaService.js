@@ -19,8 +19,10 @@ const crearResena = async (usuarioId, solicitudId, calificacion, comentario) => 
   if (solicitud.organizador.usuarioId !== usuarioId) {
     const e = new Error('Solo el organizador puede dejar una reseña'); e.status = 403; throw e;
   }
-  if (!esEventoRealizado(solicitud)) {
-    const e = new Error('La reseña solo está disponible una vez que el evento haya concluido'); e.status = 409; throw e;
+  const pago = await prisma.pago.findUnique({ where: { solicitudId: Number(solicitudId) } });
+  const pagado = pago && pago.estadoPagoUno === 'pagado';
+  if (!esEventoRealizado(solicitud) && !pagado) {
+    const e = new Error('La reseña se habilita una vez que el evento haya concluido o se haya realizado el pago'); e.status = 409; throw e;
   }
   const existente = await prisma.resena.findUnique({ where: { solicitudId: Number(solicitudId) } });
   if (existente) {

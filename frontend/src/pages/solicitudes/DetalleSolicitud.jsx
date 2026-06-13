@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { obtenerSolicitud, responderSolicitud } from '../../services/solicitudService';
 import { crearResena, responderResena, obtenerResenasPorBanda } from '../../services/resenaService';
+import { obtenerPago } from '../../services/pagoService';
 import Chat from '../../components/chat/Chat';
 import SelectorEstrellas from '../../components/resenas/SelectorEstrellas';
 import TarjetaResena from '../../components/resenas/TarjetaResena';
@@ -42,8 +43,9 @@ export default function DetalleSolicitud() {
   const [mostrarContraoferta, setMostrarContraoferta] = useState(false);
   const [contraForm, setContraForm] = useState({ presupuesto: '', mensaje: '' });
 
-  // Reseña
+  // Reseña y pago
   const [resena, setResena] = useState(null);
+  const [pagado, setPagado] = useState(false);
   const [resenaForm, setResenaForm] = useState({ calificacion: 0, comentario: '' });
   const [enviandoResena, setEnviandoResena] = useState(false);
   const [errorResena, setErrorResena] = useState(null);
@@ -54,13 +56,15 @@ export default function DetalleSolicitud() {
     try {
       const res = await obtenerSolicitud(id, token);
       setSolicitud(res.data);
-      // Cargar reseña si aplica
       if (res.data.estado === 'confirmada') {
         obtenerResenasPorBanda(res.data.banda.id)
           .then((r) => {
             const r2 = r.data.resenas.find((re) => re.solicitudId === Number(id));
             if (r2) setResena(r2);
           })
+          .catch(() => {});
+        obtenerPago(id, token)
+          .then((r) => setPagado(r.data?.estadoPagoUno === 'pagado'))
           .catch(() => {});
       }
     } catch (err) {
@@ -77,7 +81,7 @@ export default function DetalleSolicitud() {
   const soyBanda = solicitud.banda.usuarioId === usuario.id;
   const soyOrganizador = solicitud.organizador.usuarioId === usuario.id;
   const puedeResponder = soyBanda && ['pendiente', 'en_negociacion'].includes(solicitud.estado);
-  const realizado = eventoRealizado(solicitud);
+  const realizado = eventoRealizado(solicitud) || pagado;
 
   const ejecutarAccion = async (accion, contraOferta) => {
     setAccionando(true);
