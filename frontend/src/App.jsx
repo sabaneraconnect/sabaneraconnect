@@ -16,6 +16,7 @@ import SolicitudesRecibidas from './pages/solicitudes/SolicitudesRecibidas';
 import Terminos from './pages/legal/Terminos';
 import PoliticaPrivacidad from './pages/legal/PoliticaPrivacidad';
 import PoliticaPagos from './pages/legal/PoliticaPagos';
+import Pago from './pages/pagos/Pago';
 import './App.css';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path="/solicitudes/enviadas" element={<SolicitudesEnviadas />} />
           <Route path="/solicitudes/recibidas" element={<SolicitudesRecibidas />} />
           <Route path="/solicitudes/:id" element={<DetalleSolicitud />} />
+          <Route path="/solicitudes/:id/pago" element={<Pago />} />
           <Route path="/legal/terminos" element={<Terminos />} />
           <Route path="/legal/privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/legal/pagos" element={<PoliticaPagos />} />

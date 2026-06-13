@@ -37,7 +37,7 @@ const actualizarPerfil = async (usuarioId, datos) => {
     throw error;
   }
 
-  const { integrantes, generos, municipiosCobertura, aniosExperiencia, municipio, departamento, nit, rangoPrecio } = datos;
+  const { integrantes, generos, municipiosCobertura, aniosExperiencia, municipio, departamento, nit, rangoPrecio, banco, tipoCuenta, numeroCuenta } = datos;
 
   return prisma.banda.update({
     where: { usuarioId },
@@ -50,6 +50,9 @@ const actualizarPerfil = async (usuarioId, datos) => {
       ...(departamento !== undefined && { departamento }),
       ...(nit !== undefined && { nit }),
       ...(rangoPrecio !== undefined && { rangoPrecio }),
+      ...(banco !== undefined && { banco }),
+      ...(tipoCuenta !== undefined && { tipoCuenta }),
+      ...(numeroCuenta !== undefined && { numeroCuenta }),
     },
   });
 };

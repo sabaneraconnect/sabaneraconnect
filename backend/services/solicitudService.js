@@ -42,7 +42,7 @@ const obtenerSolicitudOr403 = async (solicitudId) => {
   const s = await prisma.solicitud.findUnique({
     where: { id: Number(solicitudId) },
     include: {
-      banda: { include: { usuario: { select: { nombre: true, correo: true } } } },
+      banda: { select: { id: true, usuarioId: true, numeroCuenta: true, usuario: { select: { nombre: true, correo: true } } } },
       organizador: { include: { usuario: { select: { nombre: true, correo: true } } } },
     },
   });
@@ -92,7 +92,8 @@ const crearSolicitud = async (usuarioId, datos) => {
   if (minutosDesde(franjaInicio) >= minutosDesde(franjaFin)) {
     const e = new Error('La hora de inicio debe ser anterior a la hora de fin.'); e.status = 400; throw e;
   }
-  if (new Date(fecha) < new Date(new Date().toDateString())) {
+  const hoyStr = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
+  if (fecha.slice(0, 10) < hoyStr) {
     const e = new Error('La fecha no puede ser en el pasado.'); e.status = 400; throw e;
   }
 

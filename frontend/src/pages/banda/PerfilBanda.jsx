@@ -3,15 +3,24 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
 import { obtenerPerfil } from '../../services/bandaService';
 import CalendarioDisponibilidad from '../../components/banda/CalendarioDisponibilidad';
+import SelectorEstrellas from '../../components/resenas/SelectorEstrellas';
+import TarjetaResena from '../../components/resenas/TarjetaResena';
+import { obtenerResenasPorBanda } from '../../services/resenaService';
 
 export default function PerfilBanda() {
   const { id } = useParams();
   const [banda, setBanda] = useState(null);
   const [error, setError] = useState(null);
+  const [resenasData, setResenasData] = useState({ promedioEstrellas: null, total: 0, resenas: [] });
 
   useEffect(() => {
     obtenerPerfil(id)
-      .then((res) => setBanda(res.data))
+      .then((res) => {
+        setBanda(res.data);
+        obtenerResenasPorBanda(res.data.id)
+          .then((r) => setResenasData(r.data))
+          .catch(() => {});
+      })
       .catch(() => setError('No se encontró el perfil de esta banda.'));
   }, [id]);
 
@@ -83,6 +92,27 @@ export default function PerfilBanda() {
 
         <section style={styles.seccion}>
           <CalendarioDisponibilidad bandaId={banda.id} modoEdicion={false} />
+        </section>
+
+        <section style={styles.seccion}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <h2 style={styles.subtitulo}>Reseñas</h2>
+            {resenasData.promedioEstrellas !== null && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <SelectorEstrellas valor={Math.round(resenasData.promedioEstrellas)} soloLectura />
+                <span style={{ fontSize: '0.9rem', color: 'var(--color-texto-secundario)' }}>
+                  {resenasData.promedioEstrellas.toFixed(1)} ({resenasData.total} {resenasData.total === 1 ? 'reseña' : 'reseñas'})
+                </span>
+              </div>
+            )}
+          </div>
+          {resenasData.resenas.length === 0 ? (
+            <p style={styles.vacio}>Esta banda aún no tiene reseñas.</p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--espaciado-sm)' }}>
+              {resenasData.resenas.map((r) => <TarjetaResena key={r.id} resena={r} />)}
+            </div>
+          )}
         </section>
       </div>
     </div>

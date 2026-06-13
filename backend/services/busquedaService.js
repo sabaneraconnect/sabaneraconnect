@@ -67,6 +67,15 @@ const buscarBandas = async (filtros = {}, pagina = 1, limite = 5) => {
     }),
   ]);
 
+  const bandaIds = bandas.map((b) => b.id);
+  const grupos = await prisma.resena.groupBy({
+    by: ['bandaId'],
+    where: { bandaId: { in: bandaIds } },
+    _avg: { calificacion: true },
+    _count: { calificacion: true },
+  });
+  const promedios = Object.fromEntries(grupos.map((g) => [g.bandaId, g._avg.calificacion]));
+
   const resultados = bandas.map((b) => ({
     id: b.id,
     nombre: b.usuario.nombre,
@@ -75,7 +84,7 @@ const buscarBandas = async (filtros = {}, pagina = 1, limite = 5) => {
     municipio: b.municipio,
     rangoPrecio: b.rangoPrecio,
     foto: b.multimedia[0]?.url ?? null,
-    promedioEstrellas: null,
+    promedioEstrellas: promedios[b.id] ? Math.round(promedios[b.id] * 10) / 10 : null,
   }));
 
   return { resultados, total, pagina, totalPaginas: Math.ceil(total / limite) };

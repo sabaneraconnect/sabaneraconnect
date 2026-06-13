@@ -25,6 +25,7 @@ export default function EditarPerfil() {
 
   const [form, setForm] = useState({
     integrantes: '', municipiosCobertura: '', aniosExperiencia: 0, municipio: '', departamento: '', nit: '',
+    banco: '', tipoCuenta: '', numeroCuenta: '',
   });
   const [generosSeleccionados, setGenerosSeleccionados] = useState([]);
   const [otroGenero, setOtroGenero] = useState('');
@@ -51,6 +52,9 @@ export default function EditarPerfil() {
         municipio: b.municipio || '',
         departamento: b.departamento || '',
         nit: b.nit || '',
+        banco: b.banco || '',
+        tipoCuenta: b.tipoCuenta || '',
+        numeroCuenta: b.numeroCuenta || '',
       });
       setGenerosSeleccionados(seleccionados);
       setOtroGenero(otro);
@@ -215,6 +219,33 @@ export default function EditarPerfil() {
             )}
           </div>
 
+          {/* Datos bancarios */}
+          <div style={styles.seccionBancaria}>
+            <p style={styles.seccionTitulo}>Datos bancarios (opcional)</p>
+            <p style={styles.seccionHint}>Usados para simular la transferencia de pagos tras cada evento confirmado.</p>
+            <div style={styles.campo}>
+              <label style={styles.label}>Banco</label>
+              <select name="banco" value={form.banco} onChange={handleChange} style={styles.input}>
+                <option value="">— Selecciona —</option>
+                {['Bancolombia', 'Davivienda', 'BBVA', 'Banco de Bogotá', 'Nequi', 'Otro'].map((b) => (
+                  <option key={b} value={b}>{b}</option>
+                ))}
+              </select>
+            </div>
+            <div style={styles.campo}>
+              <label style={styles.label}>Tipo de cuenta</label>
+              <select name="tipoCuenta" value={form.tipoCuenta} onChange={handleChange} style={styles.input}>
+                <option value="">— Selecciona —</option>
+                <option value="Ahorros">Ahorros</option>
+                <option value="Corriente">Corriente</option>
+              </select>
+            </div>
+            <div style={styles.campo}>
+              <label style={styles.label}>Número de cuenta</label>
+              <input name="numeroCuenta" value={form.numeroCuenta} onChange={handleChange} placeholder="Ej: 3001234567" style={styles.input} />
+            </div>
+          </div>
+
           <div style={styles.acciones}>
             <button type="submit" disabled={guardando} style={styles.botonGuardar}>
               {guardando ? 'Guardando...' : 'Guardar cambios'}
@@ -276,6 +307,9 @@ const styles = {
     fontFamily: 'var(--fuente-encabezado)', fontWeight: 600,
   },
   separador: { border: 'none', borderTop: '1px solid #eee', margin: 'var(--espaciado-lg) 0' },
+  seccionBancaria: { display: 'flex', flexDirection: 'column', gap: 'var(--espaciado-sm)', backgroundColor: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 'var(--radio-borde)', padding: 'var(--espaciado-md)' },
+  seccionTitulo: { margin: 0, fontWeight: 600, fontSize: '0.95rem', color: 'var(--color-texto)' },
+  seccionHint: { margin: 0, fontSize: '0.8rem', color: 'var(--color-texto-secundario)' },
   exito: { backgroundColor: '#e6f9f0', color: '#1a7a4a', padding: 'var(--espaciado-sm) var(--espaciado-md)', borderRadius: 'var(--radio-borde)', fontSize: '0.9rem', margin: 0 },
   errorMsg: { backgroundColor: '#fde8e8', color: '#c0392b', padding: 'var(--espaciado-sm) var(--espaciado-md)', borderRadius: 'var(--radio-borde)', fontSize: '0.9rem', margin: 0 },
 };

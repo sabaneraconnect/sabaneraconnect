@@ -26,6 +26,7 @@ model Usuario {
 
   banda           Banda?
   organizador     Organizador?
+  mensajes        Mensaje[]
 }
 
 model Organizador {
@@ -34,6 +35,7 @@ model Organizador {
   usuario       Usuario     @relation(fields: [usuarioId], references: [id])
   fechaCreacion DateTime    @default(now())
   solicitudes   Solicitud[]
+  resenas       Resena[]
 }
 
 model Banda {
@@ -50,9 +52,13 @@ model Banda {
   aniosExperiencia     Int               @default(0)
   estadoPerfil         String            @default("borrador")
   rangoPrecio          String?
+  banco                String?
+  tipoCuenta           String?
+  numeroCuenta         String?
   multimedia           MultimediaBanda[]
   disponibilidad       DisponibilidadBanda[]
   solicitudes          Solicitud[]
+  resenas              Resena[]
 }
 
 model Solicitud {
@@ -71,6 +77,9 @@ model Solicitud {
   estado         String       @default("pendiente")
   contraOferta   String?
   fechaCreacion  DateTime     @default(now())
+  mensajes       Mensaje[]
+  resena         Resena?
+  pago           Pago?
 }
 
 model DisponibilidadBanda {
@@ -90,4 +99,49 @@ model MultimediaBanda {
   url         String
   tipo        String
   fechaCarga  DateTime @default(now())
+}
+
+model Mensaje {
+  id          Int       @id @default(autoincrement())
+  solicitudId Int
+  solicitud   Solicitud @relation(fields: [solicitudId], references: [id])
+  remitenteId Int
+  remitente   Usuario   @relation(fields: [remitenteId], references: [id])
+  contenido   String
+  fechaEnvio  DateTime  @default(now())
+}
+
+model Resena {
+  id             Int         @id @default(autoincrement())
+  solicitudId    Int         @unique
+  solicitud      Solicitud   @relation(fields: [solicitudId], references: [id])
+  organizadorId  Int
+  organizador    Organizador @relation(fields: [organizadorId], references: [id])
+  bandaId        Int
+  banda          Banda       @relation(fields: [bandaId], references: [id])
+  calificacion   Int
+  comentario     String?
+  respuestaBanda String?
+  fechaCreacion  DateTime    @default(now())
+}
+
+model Pago {
+  id                       Int       @id @default(autoincrement())
+  solicitudId              Int       @unique
+  solicitud                Solicitud @relation(fields: [solicitudId], references: [id])
+  montoTotal               Float
+  comision                 Float
+  tipo                     String    @default("anticipo_y_saldo")
+  porcentajeAnticipo       Int       @default(50)
+  estadoPagoUno            String    @default("pendiente")
+  estadoPagoDos            String    @default("pendiente")
+  stripePaymentIntentUno   String?
+  stripePaymentIntentDos   String?
+  fechaHabilitacionPagoDos DateTime?
+  notificado48h            Boolean   @default(false)
+  estadoPagoBandaUno       String    @default("pendiente")
+  estadoPagoBandaDos       String    @default("pendiente")
+  montoTransferidoUno      Float?
+  montoTransferidoDos      Float?
+  fechaCreacion            DateTime  @default(now())
 }

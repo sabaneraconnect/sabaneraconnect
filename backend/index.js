@@ -7,6 +7,9 @@ const bandaRoutes = require('./routes/bandaRoutes');
 const disponibilidadRoutes = require('./routes/disponibilidadRoutes');
 const busquedaRoutes = require('./routes/busquedaRoutes');
 const solicitudRoutes = require('./routes/solicitudRoutes');
+const mensajeRoutes = require('./routes/mensajeRoutes');
+const resenaRoutes = require('./routes/resenaRoutes');
+const pagoRoutes = require('./routes/pagoRoutes');
 
 dotenv.config();
 
@@ -25,6 +28,9 @@ app.use('/api/bandas', bandaRoutes);
 app.use('/api/disponibilidad', disponibilidadRoutes);
 app.use('/api/busqueda', busquedaRoutes);
 app.use('/api/solicitudes', solicitudRoutes);
+app.use('/api/mensajes', mensajeRoutes);
+app.use('/api/resenas', resenaRoutes);
+app.use('/api/pagos', pagoRoutes);
 
 app.use(errorHandler);
 
