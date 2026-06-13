@@ -9,7 +9,7 @@ const TIPOS_EVENTO = ['Cumpleaños', 'Boda', 'Festival', 'Corporativo', 'Quincea
 const formInicial = {
   fecha: '', franjaInicio: '', franjaFin: '',
   departamento: '', municipio: '', tipoEvento: 'Cumpleaños',
-  duracionHoras: 2, presupuesto: '',
+  presupuesto: '',
 };
 
 export default function NuevaSolicitud() {
@@ -52,7 +52,10 @@ export default function NuevaSolicitud() {
     setEnviando(true);
     setError(null);
     try {
-      await crearSolicitud({ ...form, bandaId: Number(bandaId), duracionHoras: Number(form.duracionHoras), presupuesto: Number(form.presupuesto) }, token);
+      const [hi, mi] = form.franjaInicio.split(':').map(Number);
+      const [hf, mf] = form.franjaFin.split(':').map(Number);
+      const duracionHoras = Math.round((hf * 60 + mf - (hi * 60 + mi)) / 60);
+      await crearSolicitud({ ...form, bandaId: Number(bandaId), duracionHoras, presupuesto: Number(form.presupuesto) }, token);
       setExito(true);
     } catch (err) {
       setError(err.response?.data?.error || 'Error al enviar la solicitud.');
@@ -110,10 +113,15 @@ export default function NuevaSolicitud() {
               {TIPOS_EVENTO.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </Campo>
+          {form.franjaInicio && form.franjaFin && (() => {
+            const [hi, mi] = form.franjaInicio.split(':').map(Number);
+            const [hf, mf] = form.franjaFin.split(':').map(Number);
+            const mins = hf * 60 + mf - (hi * 60 + mi);
+            if (mins <= 0) return null;
+            const h = Math.floor(mins / 60), m = mins % 60;
+            return <p style={styles.duracionCalc}>Duración: <strong>{h > 0 ? `${h}h` : ''}{m > 0 ? ` ${m}min` : ''}</strong></p>;
+          })()}
           <div style={styles.fila}>
-            <Campo label="Duración (horas)">
-              <input type="number" name="duracionHoras" min="1" max="24" required value={form.duracionHoras} onChange={handleChange} style={styles.input} />
-            </Campo>
             <Campo label="Presupuesto estimado (COP)">
               <input type="number" name="presupuesto" min="0" required placeholder="Ej: 1500000" value={form.presupuesto} onChange={handleChange} style={styles.input} />
             </Campo>
@@ -147,5 +155,6 @@ const styles = {
   errorMsg: { backgroundColor: '#fde8e8', color: '#c0392b', padding: 'var(--espaciado-sm) var(--espaciado-md)', borderRadius: 'var(--radio-borde)', fontSize: '0.9rem', margin: 0 },
   exitoMsg: { backgroundColor: '#e6f9f0', color: '#1a7a4a', padding: 'var(--espaciado-md)', borderRadius: 'var(--radio-borde)', fontSize: '0.95rem', margin: 0 },
   aviso: { fontSize: '1rem', color: 'var(--color-texto)' },
+  duracionCalc: { margin: 0, fontSize: '0.875rem', color: 'var(--color-texto-secundario)', padding: '6px 10px', backgroundColor: '#f0f9ff', borderRadius: 'var(--radio-borde)', border: '1px solid #bae6fd' },
   enlaceLogin: { color: 'var(--color-primario)', fontWeight: 600 },
 };
