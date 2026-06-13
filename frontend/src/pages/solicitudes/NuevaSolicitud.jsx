@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { crearSolicitud } from '../../services/solicitudService';
+import { DEPARTAMENTOS, MUNICIPIOS_POR_DEPARTAMENTO } from '../../constants/ubicaciones';
 
 const TIPOS_EVENTO = ['Cumpleaños', 'Boda', 'Festival', 'Corporativo', 'Quinceañera', 'Otro'];
 
 const formInicial = {
   fecha: '', franjaInicio: '', franjaFin: '',
-  municipio: '', tipoEvento: 'Cumpleaños',
+  departamento: '', municipio: '', tipoEvento: 'Cumpleaños',
   duracionHoras: 2, presupuesto: '',
 };
 
@@ -92,8 +93,17 @@ export default function NuevaSolicitud() {
               <input type="time" name="franjaFin" required value={form.franjaFin} onChange={handleChange} style={styles.input} />
             </Campo>
           </div>
+          <Campo label="Departamento">
+            <select name="departamento" required value={form.departamento} onChange={(e) => setForm({ ...form, departamento: e.target.value, municipio: '' })} style={styles.input}>
+              <option value="">— Selecciona —</option>
+              {DEPARTAMENTOS.map((d) => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </Campo>
           <Campo label="Municipio">
-            <input type="text" name="municipio" required placeholder="Ej: Cartagena" value={form.municipio} onChange={handleChange} style={styles.input} />
+            <select name="municipio" required value={form.municipio} onChange={handleChange} style={styles.input} disabled={!form.departamento}>
+              <option value="">— Selecciona —</option>
+              {(MUNICIPIOS_POR_DEPARTAMENTO[form.departamento] || []).map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
           </Campo>
           <Campo label="Tipo de evento">
             <select name="tipoEvento" value={form.tipoEvento} onChange={handleChange} style={styles.input}>
