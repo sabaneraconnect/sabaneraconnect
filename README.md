@@ -2,6 +2,8 @@
 
 Plataforma que conecta organizadores de eventos con bandas culturales del Caribe colombiano. Permite buscar bandas, gestionar solicitudes de contratación, chat entre partes, reseñas y pagos en línea.
 
+🔗 **Demo en producción:** [sabaneraconnect.vercel.app](https://sabaneraconnect.vercel.app)
+
 ## Stack tecnológico
 
 - **Frontend:** React + Vite — desplegado en Vercel
